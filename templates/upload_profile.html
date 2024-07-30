@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .bg {
+        background-image: url('{% static "image\bgimage5.jpg" %}'); /* Add your background image URL here */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .container {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 30px;
+        border-radius: 10px;
+        margin-top: 50px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    footer {
+        position: relative;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 10px 0;
+    }
+    .btn-custom {
+        background-color: #ff5722;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 12px;
+    }
+</style>
+{% endblock %}
+{% block body %}
+<div class="bg">
+    <div class="container">
+        <h1 class="text-center">Upload Profile Picture</h1>
+        <form method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="profilePic">Choose a profile picture</label>
+                <input type="file" class="form-control" id="profilePic" name="profile" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Upload</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
