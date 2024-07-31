@@ -12,6 +12,8 @@
             height: 100%;
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            flex-direction: column;
         }
         .bg {
             background-image: url('{% static "image\bgimage.jpg" %}'); /* Add your background image URL here */
@@ -19,6 +21,10 @@
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .welcome-text {
             text-align: center;
@@ -65,7 +71,7 @@
         <div class="welcome-text">
             <h1>Welcome to To-Do App</h1>
             <p>Organize your tasks efficiently</p>
-            <a href="{% url 'todo' %}" class="btn btn-custom">Get Started</a>
+            <a href="{% url 'login' %}" class="btn btn-custom">Get Started</a>
         </div>
     </div>
 
