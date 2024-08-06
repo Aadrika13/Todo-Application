@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Todo, Profile
+from django.contrib import messages
+
 
 # Create your views here.
 #==================================== HOME ===================================================================
@@ -11,10 +13,13 @@ def home(request):
 
 def todo(request):
 
-    todos = Todo.objects.filter(is_completed = False)
+    user = request.user
+
+    todos = Todo.objects.filter(is_completed = False,user = user)
 
     parameters = {
-        'todos':todos
+        'todos':todos,
+        'user':user
     }
 
     return render(request, 'todo.html', parameters)
@@ -29,11 +34,13 @@ def add_todo(request):
         created_at = request.POST.get('created_at')
 
         todo = Todo (
+            user = request.user,
             task = task,
             created_at = created_at
         )
 
         todo.save()
+        messages.success(request, 'Todo added sucessfully')
         return redirect('todo')
     
     return render(request, 'add_todo.html')
@@ -45,6 +52,7 @@ def delete_todo(request, id):
     todo = Todo.objects.get(id=id)
     todo.delete()
 
+    messages.success(request, 'Todo deleted sucessfully')
     return redirect('todo')
 
 #=================================== UPDATE_TODO ==============================================================
@@ -62,6 +70,7 @@ def update_todo(request, id):
 
         todo.save()
 
+        messages.success(request, 'Todo updated sucessfully')
         return redirect('todo')
     
     parameters = {
@@ -79,6 +88,7 @@ def mark_completed(request, id):
     todo.is_completed = True
     todo.save()
 
+    messages.success(request, 'Todo Marked Completed!!')
     return redirect('todo')
 
 #================================== UPLOAD_PIC =================================================================
@@ -96,6 +106,7 @@ def upload_profile(request):
 
         new_profile.save()
 
+        messages.success(request, 'Profile uploaded successfully')
         return redirect('todo')
     
     return render(request, 'upload_profile.html')
