@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib import auth, messages                                                                                                               # methods in auth model: authenticate() ,login() ,logout()
+from django.contrib import auth, messages                                                                                                              # methods in auth model: authenticate() ,login() ,logout()
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -13,9 +14,13 @@ def login(request):
         user = auth.authenticate(username = username, password = password)
 
         if user is not None:
-            auth.login(request, user)  # session create ho rha h
-            return redirect('todo')
-        
+            if user.is_staff:
+                auth.login(request, user)  # session create ho rha h
+                return redirect('index')
+            
+            else:
+                auth.login(request, user)
+                return redirect('todo')
         else:
             messages.error(request, 'Invalid Username or Password')
             return redirect('login')
@@ -44,6 +49,7 @@ def register(request):
 
 #==================================== LOGOUT ==========================================================================================
 
+@login_required(login_url='login')
 def logout(request):
     auth.logout(request)
     return redirect('home')

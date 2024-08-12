@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Todo, Profile
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -11,6 +12,7 @@ def home(request):
 
 #==================================== TODo ===================================================================
 
+@login_required(login_url='login')
 def todo(request):
 
     user = request.user
@@ -26,6 +28,7 @@ def todo(request):
 
 #=================================== ADD_TODO ================================================================
 
+@login_required(login_url='login')
 def add_todo(request):
 
     if request.method == 'POST':
@@ -47,6 +50,7 @@ def add_todo(request):
 
 #=================================== DELETE_TODO =============================================================
 
+@login_required(login_url='login')
 def delete_todo(request, id):
 
     todo = Todo.objects.get(id=id)
@@ -57,6 +61,7 @@ def delete_todo(request, id):
 
 #=================================== UPDATE_TODO ==============================================================
 
+@login_required(login_url='login')
 def update_todo(request, id):
 
     todo = Todo.objects.get(id=id)
@@ -81,6 +86,7 @@ def update_todo(request, id):
 
 #================================== MARK_COMPLETED ============================================================
 
+@login_required(login_url='login')
 def mark_completed(request, id):
 
     todo = Todo.objects.get(id=id)
@@ -93,6 +99,7 @@ def mark_completed(request, id):
 
 #================================== UPLOAD_PIC =================================================================
 
+@login_required(login_url='login')
 def upload_profile(request):
 
     if request.method == 'POST':
